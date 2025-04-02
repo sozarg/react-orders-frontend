@@ -6,12 +6,11 @@ const API_URL = process.env.REACT_APP_API_URL;
 
 function App() {
   const [order, setOrder] = useState({ user_id: '', product: '' });
-  const [message, setMessage] = useState({ order_id: '', user_id: '', content: '' });
+  const [message, setMessage] = useState({ order_id: '', sender: '', content: '' }); // Cambiado user_id a sender
   const [orderId, setOrderId] = useState('');
   const [fetchedOrder, setFetchedOrder] = useState(null);
   const [error, setError] = useState('');
 
-  // Crear un pedido
   const handleCreateOrder = async (e) => {
     e.preventDefault();
     try {
@@ -19,11 +18,10 @@ function App() {
       alert(`Pedido creado con ID: ${response.data.id}`);
       setOrder({ user_id: '', product: '' });
     } catch (err) {
-      setError('Error al crear el pedido: ' + err.message);
+      setError('Error al crear el pedido: ' + (err.response?.data?.detail || err.message));
     }
   };
 
-  // Consultar un pedido
   const handleGetOrder = async (e) => {
     e.preventDefault();
     try {
@@ -31,19 +29,18 @@ function App() {
       setFetchedOrder(response.data);
       setError('');
     } catch (err) {
-      setError('Error al consultar el pedido: ' + err.message);
+      setError('Error al consultar el pedido: ' + (err.response?.data?.detail || err.message));
     }
   };
 
-  // Enviar un mensaje
   const handleCreateMessage = async (e) => {
     e.preventDefault();
     try {
       const response = await axios.post(`${API_URL}/messages/`, message);
       alert('Mensaje enviado con éxito');
-      setMessage({ order_id: '', user_id: '', content: '' });
+      setMessage({ order_id: '', sender: '', content: '' });
     } catch (err) {
-      setError('Error al enviar el mensaje: ' + err.message);
+      setError('Error al enviar el mensaje: ' + (err.response?.data?.detail || err.message));
     }
   };
 
@@ -51,7 +48,6 @@ function App() {
     <div className="App">
       <h1>Detta3D - Gestión de Pedidos</h1>
 
-      {/* Formulario para crear un pedido */}
       <div>
         <h2>Crear Pedido</h2>
         <form onSubmit={handleCreateOrder}>
@@ -73,7 +69,6 @@ function App() {
         </form>
       </div>
 
-      {/* Formulario para consultar un pedido */}
       <div>
         <h2>Consultar Pedido</h2>
         <form onSubmit={handleGetOrder}>
@@ -97,7 +92,6 @@ function App() {
         )}
       </div>
 
-      {/* Formulario para enviar un mensaje */}
       <div>
         <h2>Enviar Mensaje</h2>
         <form onSubmit={handleCreateMessage}>
@@ -110,9 +104,9 @@ function App() {
           />
           <input
             type="text"
-            placeholder="ID del usuario"
-            value={message.user_id}
-            onChange={(e) => setMessage({ ...message, user_id: e.target.value })}
+            placeholder="Remitente"
+            value={message.sender}
+            onChange={(e) => setMessage({ ...message, sender: e.target.value })}
             required
           />
           <textarea
