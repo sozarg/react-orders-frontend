@@ -5,7 +5,7 @@ import './App.css';
 const API_URL = process.env.REACT_APP_API_URL;
 
 function App() {
-  const [order, setOrder] = useState({ user_id: '', product: '' });
+  const [order, setOrder] = useState({ user_id: '', product: '', price: '' });
   const [message, setMessage] = useState({ order_id: '', sender: '', content: '' }); // Cambiado user_id a sender
   const [orderId, setOrderId] = useState('');
   const [fetchedOrder, setFetchedOrder] = useState(null);
@@ -16,7 +16,7 @@ function App() {
     try {
       const response = await axios.post(`${API_URL}/orders/`, order);
       alert(`Pedido creado con ID: ${response.data.id}`);
-      setOrder({ user_id: '', product: '' });
+      setOrder({ user_id: '', product: '', price: '' });
     } catch (err) {
       setError('Error al crear el pedido: ' + (err.response?.data?.detail || err.message));
     }
@@ -66,10 +66,10 @@ function App() {
             required
           />
           <input
-            type="text"
+            type="number"
             placeholder="Precio"
             value={order.price}
-            onChange={(e) => setOrder({ ...order, price: e.target.value })}
+            onChange={(e) => setOrder({ ...order, price: parseFloat(e.target.value) })}
             required
           />
           <button type="submit">Crear Pedido</button>
