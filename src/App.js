@@ -6,10 +6,21 @@ const API_URL = process.env.REACT_APP_API_URL;
 
 function App() {
   const [order, setOrder] = useState({ user_id: '', product: '', price: '', payment_status: '' });
-  const [message, setMessage] = useState({ order_id: '', sender: '', content: '' }); // Cambiado user_id a sender
+  const [message, setMessage] = useState({ order_id: '', sender: '', content: '' });
   const [orderId, setOrderId] = useState('');
   const [fetchedOrder, setFetchedOrder] = useState(null);
   const [error, setError] = useState('');
+  const [allOrders, setAllOrders] = useState([]);
+
+  const fetchAllOrders = async () => {
+    try {
+      const response = await axios.get(`${API_URL}/orders/`);
+      setAllOrders(response.data);
+    } catch (err) {
+      console.error("Error al traer los pedidos:", err);
+      setError('Error al traer todos los pedidos.');
+    }
+  };
 
   const handleCreateOrder = async (e) => {
     e.preventDefault();
@@ -138,6 +149,38 @@ function App() {
           />
           <button type="submit">Enviar Mensaje</button>
         </form>
+      </div>
+
+      <div>
+        <h2>Ver Todos los Pedidos</h2>
+        <button onClick={fetchAllOrders}>Cargar Pedidos</button>
+
+        {allOrders.length > 0 && (
+          <table>
+            <thead>
+              <tr>
+                <th>ID</th>
+                <th>Producto</th>
+                <th>Precio</th>
+                <th>Usuario</th>
+                <th>Pago</th>
+                <th>Estado</th>
+              </tr>
+            </thead>
+            <tbody>
+              {allOrders.map((order) => (
+                <tr key={order.id}>
+                  <td>{order.id}</td>
+                  <td>{order.product}</td>
+                  <td>{order.price}</td>
+                  <td>{order.user_id}</td>
+                  <td>{order.payment_status}</td>
+                  <td>{order.status}</td>
+                </tr>
+              ))}
+            </tbody>
+          </table>
+        )}
       </div>
 
       {error && <p style={{ color: 'red' }}>{error}</p>}
