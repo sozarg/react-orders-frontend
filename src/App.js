@@ -69,16 +69,22 @@ function App() {
             type="number"
             placeholder="Precio"
             value={order.price}
-            onChange={(e) => setOrder({ ...order, price: parseFloat(e.target.value) })}
+            onChange={(e) => {
+              const value = e.target.value;
+              setOrder({ ...order, price: value === '' ? '' : parseFloat(value) });
+            }}
             required
           />
-          <input
-            type="text"
-            placeholder="Estado"
+          <select
             value={order.payment_status}
             onChange={(e) => setOrder({ ...order, payment_status: e.target.value })}
             required
-          />
+          >
+            <option value="">Estado de pago</option>
+            <option value="pending">Pendiente</option>
+            <option value="paid">Pagado</option>
+            <option value="cancelled">Cancelado</option>
+          </select>
           <button type="submit">Crear Pedido</button>
         </form>
       </div>
@@ -102,6 +108,7 @@ function App() {
             <p>Usuario: {fetchedOrder.user_id}</p>
             <p>Producto: {fetchedOrder.product}</p>
             <p>Estado: {fetchedOrder.status}</p>
+            <p>Pago: {fetchedOrder.payment_status}</p>
           </div>
         )}
       </div>
