@@ -65,6 +65,13 @@ function App() {
             onChange={(e) => setOrder({ ...order, product: e.target.value })}
             required
           />
+          <input
+            type="text"
+            placeholder="Precio"
+            value={order.price}
+            onChange={(e) => setOrder({ ...order, price: e.target.value })}
+            required
+          />
           <button type="submit">Crear Pedido</button>
         </form>
       </div>
