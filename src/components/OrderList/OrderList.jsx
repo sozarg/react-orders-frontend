@@ -35,7 +35,7 @@ const OrderList = () => {
   };
 
   return (
-    <div className="orders-container">
+    <div className="content-container">
       <h2 className="page-title">Todos los Pedidos</h2>
       
       <div className="orders-table-container">

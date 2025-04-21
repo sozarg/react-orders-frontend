@@ -77,6 +77,23 @@ body {
   background: #f5f7f9;
 }
 
+.content-container {
+  background: white;
+  border-radius: 12px;
+  padding: 2rem;
+  box-shadow: 0 1px 3px rgba(0, 0, 0, 0.1);
+  max-width: 1200px;
+  margin: 0 auto;
+  margin-bottom: 2rem;
+}
+
+.page-title {
+  font-size: 1.5rem;
+  font-weight: 600;
+  color: #1a1a1a;
+  margin-bottom: 2rem;
+}
+
 /* Contenedor del formulario */
 .form-container {
   background: white;
@@ -88,14 +105,6 @@ body {
 }
 
 /* Título de la página y subtítulos */
-.page-title, .form-container h3 {
-  font-size: 1.5rem;
-  font-weight: 600;
-  color: #1a1a1a;
-  margin-bottom: 2rem;
-}
-
-/* Ajuste específico para los subtítulos h3 */
 .form-container h3 {
   font-size: 1.5rem;  /* Mismo tamaño que page-title */
   margin-bottom: 1rem; /* Un poco menos de margen que el título principal */

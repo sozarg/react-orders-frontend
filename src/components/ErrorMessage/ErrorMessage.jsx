@@ -5,7 +5,9 @@ const ErrorMessage = ({ message }) => {
   if (!message) return null;
   
   return (
-    <p className="error-message">{message}</p>
+    <div className="error-message">
+      {message}
+    </div>
   );
 };
 

@@ -2,6 +2,7 @@ import React, { useState } from 'react';
 import Sidebar from './components/Sidebar/Sidebar';
 import OrderForm from './components/OrderForm/OrderForm';
 import OrderList from './components/OrderList/OrderList';
+import CompletedOrders from './components/CompletedOrders/CompletedOrders';
 import ErrorMessage from './components/ErrorMessage/ErrorMessage';
 import './App.css';
 import './styles/variables.css';
@@ -27,10 +28,7 @@ const App = () => {
         )}
 
         {view === 'completed' && (
-          <div>
-            <h2>Pedidos finalizados</h2>
-            <p>Lista de pedidos completados</p>
-          </div>
+          <CompletedOrders />
         )}
 
         <ErrorMessage message={error} />
