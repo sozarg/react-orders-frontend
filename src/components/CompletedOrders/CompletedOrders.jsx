@@ -1,8 +1,22 @@
-import React, { useState } from 'react';
+import React, { useState, useEffect } from 'react';
 import './CompletedOrders.css';
+import { orderService } from '../../services/api';
 
 const CompletedOrders = () => {
-  const [completedOrders, setCompletedOrders] = useState([]); // Aquí vendrán los datos de FastAPI
+  const [completedOrders, setCompletedOrders] = useState([]);
+
+  useEffect(() => {
+    const loadCompletedOrders = async () => {
+      try {
+        const data = await orderService.getCompletedOrders();
+        setCompletedOrders(data);
+      } catch (error) {
+        console.error('Error al cargar pedidos completados:', error);
+      }
+    };
+
+    loadCompletedOrders();
+  }, []);
 
   return (
     <div className="content-container">

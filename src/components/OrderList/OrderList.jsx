@@ -1,12 +1,26 @@
-import React, { useState } from 'react';
+import React, { useState, useEffect } from 'react';
 import DeliverySelector from '../DeliverySelector/DeliverySelector';
 import PaymentSelector from '../PaymentSelector/PaymentSelector';
 import './OrderList.css';
+import { orderService } from '../../services/api';
 
 const OrderList = () => {
   const [orders, setOrders] = useState([]);
   const [editingId, setEditingId] = useState(null);
   const [editingOrder, setEditingOrder] = useState(null);
+
+  useEffect(() => {
+    loadOrders();
+  }, []);
+
+  const loadOrders = async () => {
+    try {
+      const data = await orderService.getAllOrders();
+      setOrders(data);
+    } catch (error) {
+      console.error('Error al cargar pedidos:', error);
+    }
+  };
 
   const handleEdit = (order) => {
     setEditingId(order.id);
@@ -15,13 +29,8 @@ const OrderList = () => {
 
   const handleSave = async (id) => {
     try {
-      // Aquí irá la llamada a tu API FastAPI para actualizar el pedido
-      // await axios.put(`${API_URL}/orders/${id}`, editingOrder);
-      
-      // Actualizar la lista local
-      setOrders(orders.map(order => 
-        order.id === id ? editingOrder : order
-      ));
+      await orderService.updateOrder(id, editingOrder);
+      loadOrders(); // Recargar la lista
       setEditingId(null);
       setEditingOrder(null);
     } catch (error) {

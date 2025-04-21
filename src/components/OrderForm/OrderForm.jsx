@@ -3,6 +3,7 @@ import DeliverySelector from '../DeliverySelector/DeliverySelector';
 import PaymentSelector from '../PaymentSelector/PaymentSelector';
 import NotesInput from '../NotesInput/NotesInput';
 import './OrderForm.css';
+import { orderService } from '../../services/api';
 
 const OrderForm = ({ onError }) => {
   const [order, setOrder] = useState({
@@ -18,9 +19,8 @@ const OrderForm = ({ onError }) => {
   const handleSubmit = async (e) => {
     e.preventDefault();
     try {
-      // Aquí iría la lógica para enviar el pedido al backend
-      console.log('Enviando pedido:', order);
-      // Resetear el formulario después de enviar
+      const response = await orderService.createOrder(order);
+      // Limpiar formulario después de éxito
       setOrder({
         user_id: '',
         product: '',
@@ -31,7 +31,7 @@ const OrderForm = ({ onError }) => {
         notes: ''
       });
     } catch (error) {
-      onError('Error al crear el pedido: ' + error.message);
+      onError(error.message);
     }
   };
 
