@@ -1,25 +1,43 @@
 // Crear este archivo para centralizar las llamadas a la API
 const API_URL = process.env.REACT_APP_API_URL;
 
+const handleResponse = async (response) => {
+  if (!response.ok) {
+    const error = await response.json().catch(() => ({
+      detail: 'Error de conexión con el servidor'
+    }));
+    throw new Error(error.detail || 'Error en la solicitud');
+  }
+  return response.json();
+};
+
 export const orderService = {
   // Crear nuevo pedido
   createOrder: async (orderData) => {
-    const response = await fetch(`${API_URL}/orders/`, {
-      method: 'POST',
-      headers: {
-        'Content-Type': 'application/json',
-      },
-      body: JSON.stringify(orderData)
-    });
-    if (!response.ok) throw new Error('Error al crear el pedido');
-    return response.json();
+    try {
+      const response = await fetch(`${API_URL}/orders/`, {
+        method: 'POST',
+        headers: {
+          'Content-Type': 'application/json',
+        },
+        body: JSON.stringify(orderData)
+      });
+      return handleResponse(response);
+    } catch (error) {
+      console.error('Error en createOrder:', error);
+      throw new Error(error.message || 'Error al crear el pedido');
+    }
   },
 
   // Obtener todos los pedidos
   getAllOrders: async () => {
-    const response = await fetch(`${API_URL}/orders/`);
-    if (!response.ok) throw new Error('Error al obtener los pedidos');
-    return response.json();
+    try {
+      const response = await fetch(`${API_URL}/orders/`);
+      return handleResponse(response);
+    } catch (error) {
+      console.error('Error en getAllOrders:', error);
+      throw new Error(error.message || 'Error al obtener los pedidos');
+    }
   },
 
   // Actualizar un pedido
