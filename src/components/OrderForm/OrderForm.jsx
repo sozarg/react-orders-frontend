@@ -20,7 +20,11 @@ const OrderForm = ({ onError }) => {
     e.preventDefault();
     try {
       const response = await orderService.createOrder(order);
-      // Limpiar formulario después de éxito
+      // Usar la respuesta para algo
+      console.log('Pedido creado con ID:', response.id);
+      // O mostrar un mensaje de éxito
+      onError(`Pedido creado exitosamente con ID: ${response.id}`);
+      
       setOrder({
         user_id: '',
         product: '',
