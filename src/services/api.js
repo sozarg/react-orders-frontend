@@ -1,5 +1,6 @@
 // Crear este archivo para centralizar las llamadas a la API
-const API_URL = process.env.REACT_APP_API_URL;
+import config from '../config/config';
+import { handleApiError } from '../utils/errorHandlers';
 
 const handleResponse = async (response) => {
   if (!response.ok) {
@@ -11,52 +12,38 @@ const handleResponse = async (response) => {
   return response.json();
 };
 
-export const orderService = {
-  // Crear nuevo pedido
-  createOrder: async (orderData) => {
-    try {
-      const response = await fetch(`${API_URL}/orders/`, {
-        method: 'POST',
-        headers: {
-          'Content-Type': 'application/json',
-        },
-        body: JSON.stringify(orderData)
-      });
-      return handleResponse(response);
-    } catch (error) {
-      console.error('Error en createOrder:', error);
-      throw new Error(error.message || 'Error al crear el pedido');
-    }
-  },
-
-  // Obtener todos los pedidos
-  getAllOrders: async () => {
-    try {
-      const response = await fetch(`${API_URL}/orders/`);
-      return handleResponse(response);
-    } catch (error) {
-      console.error('Error en getAllOrders:', error);
-      throw new Error(error.message || 'Error al obtener los pedidos');
-    }
-  },
-
-  // Actualizar un pedido
-  updateOrder: async (orderId, updateData) => {
-    const response = await fetch(`${API_URL}/orders/${orderId}`, {
-      method: 'PATCH',
+const createRequest = async (endpoint, options = {}) => {
+  try {
+    const response = await fetch(`${config.api.baseUrl}${endpoint}`, {
+      ...options,
       headers: {
         'Content-Type': 'application/json',
-      },
-      body: JSON.stringify(updateData)
+        ...options.headers
+      }
     });
-    if (!response.ok) throw new Error('Error al actualizar el pedido');
-    return response.json();
-  },
+    return handleResponse(response);
+  } catch (error) {
+    throw new Error(handleApiError(error));
+  }
+};
+
+// Objeto que contiene todos los métodos de la API
+export const orderService = {
+  // Crear nuevo pedido
+  createOrder: (data) => createRequest('/orders/', {
+    method: 'POST',
+    body: JSON.stringify(data)
+  }),
+
+  // Obtener todos los pedidos
+  getAllOrders: () => createRequest('/orders/'),
+
+  // Actualizar un pedido
+  updateOrder: (id, data) => createRequest(`/orders/${id}`, {
+    method: 'PATCH',
+    body: JSON.stringify(data)
+  }),
 
   // Obtener pedidos completados
-  getCompletedOrders: async () => {
-    const response = await fetch(`${API_URL}/orders/completed/`);
-    if (!response.ok) throw new Error('Error al obtener los pedidos completados');
-    return response.json();
-  }
+  getCompletedOrders: () => createRequest('/orders/completed/')
 }; 

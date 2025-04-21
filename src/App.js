@@ -1,9 +1,9 @@
 import React, { useState } from 'react';
-import Sidebar from './components/Sidebar/Sidebar';
+import DashboardLayout from './layouts/DashboardLayout';
 import OrderForm from './components/OrderForm/OrderForm';
 import OrderList from './components/OrderList/OrderList';
 import CompletedOrders from './components/CompletedOrders/CompletedOrders';
-import ErrorMessage from './components/ErrorMessage/ErrorMessage';
+import { OrderProvider } from './context/OrderContext';
 import './App.css';
 import './styles/variables.css';
 
@@ -11,29 +11,25 @@ const App = () => {
   const [view, setView] = useState('create');
   const [error, setError] = useState('');
 
+  const renderContent = () => {
+    switch (view) {
+      case 'create':
+        return <OrderForm onError={setError} />;
+      case 'list':
+        return <OrderList />;
+      case 'completed':
+        return <CompletedOrders />;
+      default:
+        return <OrderForm />;
+    }
+  };
+
   return (
-    <div className="dashboard">
-      <Sidebar 
-        currentView={view} 
-        onViewChange={setView} 
-      />
-
-      <div className="content">
-        {view === 'create' && (
-          <OrderForm onError={setError} />
-        )}
-
-        {view === 'list' && (
-          <OrderList />
-        )}
-
-        {view === 'completed' && (
-          <CompletedOrders />
-        )}
-
-        <ErrorMessage message={error} />
-      </div>
-    </div>
+    <OrderProvider>
+      <DashboardLayout onViewChange={setView} currentView={view}>
+        {renderContent()}
+      </DashboardLayout>
+    </OrderProvider>
   );
 };
 
