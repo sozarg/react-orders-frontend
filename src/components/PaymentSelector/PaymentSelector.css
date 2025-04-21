@@ -1,0 +1,21 @@
+.payment-section {
+  margin-bottom: 2rem;
+}
+
+/* Nuevos estilos para modo compacto */
+.payment-section.compact {
+  margin-bottom: 0;
+}
+
+.payment-section.compact .options-group {
+  margin: 0;
+  gap: 0.25rem;
+}
+
+.payment-section.compact button {
+  padding: 0.25rem 0.5rem;
+  min-width: auto;
+  font-size: 0.8rem;
+}
+
+/* Reutiliza los estilos de options-group de DeliverySelector */ 

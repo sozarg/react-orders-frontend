@@ -1,56 +1,233 @@
+/* App.css */
+:root {
+  --sidebar-color: #157a6e;
+  --text-light: rgba(255, 255, 255, 0.9);
+}
+
 body {
-  font-family: Arial, sans-serif;
-  background-color: #f6f6f6;
+  font-family: 'Inter', system-ui, -apple-system, sans-serif;
+  background-color: #f8f9fa;
   margin: 0;
-  padding: 20px;
+  padding: 0;
 }
 
-.App {
-  max-width: 900px;
-  margin: auto;
-  background: white;
-  padding: 30px;
-  border-radius: 10px;
-  box-shadow: 0 0 10px rgba(0, 0, 0, 0.1);
+.dashboard {
+  display: flex;
+  min-height: 100vh;
+  background-color: #f5f7f9;
 }
 
-h1, h2, h3 {
-  color: #333;
+.sidebar {
+  width: 280px;
+  background-color: var(--sidebar-color);
+  padding: 2rem 1.5rem;
+  display: flex;
+  flex-direction: column;
+  position: fixed;
+  height: 100vh;
+  left: 0;
+  top: 0;
 }
 
-input, select, textarea, button {
-  display: block;
-  margin: 10px 0;
-  padding: 8px;
-  font-size: 1rem;
+.brand {
+  color: white;
+  font-size: 1.5rem;
+  font-weight: 600;
+  display: flex;
+  align-items: center;
+  gap: 0.75rem;
+  padding: 0.5rem;
+  margin-bottom: 2.5rem;
+}
+
+.sidebar-nav {
+  display: flex;
+  flex-direction: column;
+  gap: 0.5rem;
+}
+
+.sidebar-nav button {
   width: 100%;
-  box-sizing: border-box;
+  padding: 0.875rem 1rem;
+  text-align: left;
+  border: none;
+  background: transparent;
+  border-radius: 8px;
+  color: var(--text-light);
+  font-weight: 500;
+  font-size: 0.9rem;
+  display: flex;
+  align-items: center;
+  gap: 0.75rem;
+  transition: all 0.2s ease;
 }
 
-button {
-  background-color: #e91e63;
+.sidebar-nav button:hover {
+  background-color: rgba(255, 255, 255, 0.1);
+}
+
+.sidebar-nav button.active {
+  background-color: rgba(255, 255, 255, 0.15);
+}
+
+.content {
+  flex: 1;
+  padding: 2rem;
+  margin-left: 280px;
+  background: #f5f7f9;
+}
+
+/* Contenedor del formulario */
+.form-container {
+  background: white;
+  border-radius: 12px;
+  padding: 2rem;
+  box-shadow: 0 1px 3px rgba(0, 0, 0, 0.1);
+  max-width: 800px;
+  margin: 0 auto;
+}
+
+/* Título de la página y subtítulos */
+.page-title, .form-container h3 {
+  font-size: 1.5rem;
+  font-weight: 600;
+  color: #1a1a1a;
+  margin-bottom: 2rem;
+}
+
+/* Ajuste específico para los subtítulos h3 */
+.form-container h3 {
+  font-size: 1.5rem;  /* Mismo tamaño que page-title */
+  margin-bottom: 1rem; /* Un poco menos de margen que el título principal */
+}
+
+.section-divider {
+  height: 1px;
+  background-image: var(--border-gradient);
+  margin: 1.5rem 0;
+}
+
+/* Estilos para los inputs */
+.form-control {
+  border-radius: 8px;
+  padding: 0.75rem;
+  margin-bottom: 1rem;
+  border: 1px solid #e0e0e0;
+  width: 100%;
+  font-size: 0.95rem;
+}
+
+.form-control:focus {
+  outline: none;
+  border-color: var(--sidebar-color);
+  box-shadow: 0 0 0 2px rgba(21, 122, 110, 0.1);
+}
+
+/* Estilos para los grupos de botones de opciones */
+.options-group {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 0.75rem;
+  margin: 1rem 0 2rem 0;
+}
+
+.options-group button {
+  padding: 0.75rem 1.25rem;
+  border: 1px solid #e0e0e0;
+  background-color: white;
+  border-radius: 6px;
+  cursor: pointer;
+  font-size: 0.9rem;
+  transition: all 0.2s ease;
+  display: flex;
+  align-items: center;
+  gap: 8px;
+  min-width: 180px;
+  justify-content: center;
+  flex: 1;
+  max-width: calc(25% - 0.75rem);
+}
+
+.options-group button:hover {
+  border-color: var(--sidebar-color);
+}
+
+.options-group button.active {
+  background-color: var(--sidebar-color);
+  color: white;
+  border-color: var(--sidebar-color);
+}
+
+.option-icon {
+  font-size: 1.2rem;
+}
+
+/* Estilos para el textarea */
+textarea.form-control {
+  min-height: 100px;
+  resize: vertical;
+}
+
+/* Estilos para el botón de guardar */
+.submit-button {
+  width: 100%;
+  padding: 0.875rem;
+  background-color: var(--sidebar-color);
   color: white;
   border: none;
-  border-radius: 4px;
+  border-radius: 6px;
+  font-weight: 500;
   cursor: pointer;
+  transition: all 0.2s ease;
 }
 
-button:hover {
-  background-color: #d81b60;
+.submit-button:hover {
+  background-color: #126b60;
 }
 
-table {
-  width: 100%;
-  border-collapse: collapse;
-  margin-top: 15px;
+/* Mensaje de error */
+.error-message {
+  color: #dc3545;
+  margin-top: 0.5rem;
+  font-size: 0.9rem;
 }
 
-th, td {
-  padding: 10px;
-  border: 1px solid #ccc;
-  text-align: left;
+/* Tabla estilizada */
+.table {
+  margin-top: 2rem;
 }
 
-th {
-  background-color: #f5f5f5;
+.table thead th {
+  background-color: #f8f9fa;
+  border-bottom: 2px solid;
+  border-image: var(--border-gradient) 1;
+}
+
+.table td {
+  vertical-align: middle;
+}
+
+/* Ocultar flechas del input number */
+input[type="number"]::-webkit-inner-spin-button,
+input[type="number"]::-webkit-outer-spin-button {
+  -webkit-appearance: none;
+  margin: 0;
+}
+
+input[type="number"] {
+  -moz-appearance: textfield; /* Firefox */
+}
+
+/* Contenedor para el grupo de opciones y el input de dirección */
+.delivery-section {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+}
+
+/* Estilo para el input de dirección */
+.address-input {
+  margin-top: 1rem;
+  width: 180px; /* Mismo ancho que los botones */
+  margin-bottom: 2rem;
 }
