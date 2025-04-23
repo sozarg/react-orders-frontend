@@ -1,10 +1,10 @@
 import React from 'react';
 import Sidebar from '../components/Sidebar/Sidebar';
 
-const DashboardLayout = ({ children }) => {
+const DashboardLayout = ({ children, currentView, onViewChange }) => {
   return (
     <div className="dashboard">
-      <Sidebar />
+      <Sidebar currentView={currentView} onViewChange={onViewChange} />
       <div className="content">
         {children}
       </div>
