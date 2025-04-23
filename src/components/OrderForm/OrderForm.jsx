@@ -1,113 +1,70 @@
 import React from 'react';
+import './OrderForm.css';
+import { useOrder } from '../../context/OrderContext';
 import { useForm } from '../../hooks/useForm';
-import { useOrders } from '../../context/OrderContext';
-import { DeliveryMethods, PaymentMethods } from '../../constants/orderTypes';
-import { validateOrder } from '../../utils/validators';
+import { useError } from '../../hooks/useError';
+import ErrorMessage from '../ErrorMessage/ErrorMessage';
 import DeliverySelector from '../DeliverySelector/DeliverySelector';
 import PaymentSelector from '../PaymentSelector/PaymentSelector';
 import NotesInput from '../NotesInput/NotesInput';
-import './OrderForm.css';
-
-const initialState = {
-  user_id: '',
-  product: '',
-  price: '',
-  status: '',
-  payment_status: '',
-  address: '',
-  notes: ''
-};
 
 const OrderForm = () => {
-  const { values, handleChange, reset, errors, setErrors } = useForm(initialState);
-  const { createOrder, error: submitError } = useOrders();
+  const { addOrder } = useOrder();
+  const { values, handleChange, resetForm } = useForm();
+  const { error, showError } = useError();
 
   const handleSubmit = async (e) => {
     e.preventDefault();
-    
-    const validationErrors = validateOrder(values);
-    if (Object.keys(validationErrors).length > 0) {
-      setErrors(validationErrors);
+    if (!values.user_id || !values.product || !values.price) {
+      showError('Todos los campos obligatorios deben estar completos');
       return;
     }
 
     try {
-      await createOrder(values);
-      reset();
-    } catch (error) {
-      // El error ya está manejado por el contexto
-      console.error('Error al crear pedido:', error);
+      await addOrder(values);
+      resetForm();
+    } catch (err) {
+      showError('No se pudo guardar el pedido');
     }
   };
 
   return (
-    <div className="form-container">
-      <h2 className="page-title">Nuevo Pedido</h2>
-      
-      <form onSubmit={handleSubmit}>
-        <input
-          type="text"
-          name="user_id"
-          className={`form-control ${errors.user_id ? 'error' : ''}`}
-          placeholder="Nombre de la persona"
-          value={values.user_id}
-          onChange={handleChange}
-        />
-        {errors.user_id && <span className="error-message">{errors.user_id}</span>}
+    <form className="order-form" onSubmit={handleSubmit}>
+      <h2>Nuevo pedido</h2>
 
-        <input
-          type="text"
-          name="product"
-          className={`form-control ${errors.product ? 'error' : ''}`}
-          placeholder="Producto"
-          value={values.product}
-          onChange={handleChange}
-        />
-        {errors.product && <span className="error-message">{errors.product}</span>}
+      <input
+        type="text"
+        name="user_id"
+        placeholder="Nombre"
+        value={values.user_id || ''}
+        onChange={handleChange}
+      />
 
-        <input
-          type="number"
-          name="price"
-          className={`form-control ${errors.price ? 'error' : ''}`}
-          placeholder="Precio"
-          value={values.price}
-          onChange={handleChange}
-        />
-        {errors.price && <span className="error-message">{errors.price}</span>}
+      <input
+        type="text"
+        name="product"
+        placeholder="Producto"
+        value={values.product || ''}
+        onChange={handleChange}
+      />
 
-        <DeliverySelector
-          selectedMethod={values.status}
-          onMethodSelect={(method) => handleChange({
-            target: { name: 'status', value: method }
-          })}
-          address={values.address}
-          onAddressChange={(address) => handleChange({
-            target: { name: 'address', value: address }
-          })}
-        />
+      <input
+        type="number"
+        name="price"
+        placeholder="Precio"
+        value={values.price || ''}
+        onChange={handleChange}
+      />
 
-        <PaymentSelector
-          selectedMethod={values.payment_status}
-          onMethodSelect={(method) => handleChange({
-            target: { name: 'payment_status', value: method }
-          })}
-        />
+      <DeliverySelector value={values.status} onChange={handleChange} />
+      <PaymentSelector value={values.payment_status} onChange={handleChange} />
+      <NotesInput value={values.notes} onChange={handleChange} />
 
-        <NotesInput
-          value={values.notes}
-          onChange={(notes) => handleChange({
-            target: { name: 'notes', value: notes }
-          })}
-        />
+      <button type="submit">Guardar Pedido</button>
 
-        {submitError && <div className="error-message">{submitError}</div>}
-
-        <button type="submit" className="submit-button">
-          Guardar Pedido
-        </button>
-      </form>
-    </div>
+      <ErrorMessage message={error} />
+    </form>
   );
 };
 
-export default OrderForm; 
+export default OrderForm;
