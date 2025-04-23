@@ -9,7 +9,7 @@ import './styles/variables.css';
 
 const App = () => {
   const [view, setView] = useState('create');
-  const [error, setError] = useState('');
+  const [, setError] = useState('');
 
   const renderContent = () => {
     switch (view) {
