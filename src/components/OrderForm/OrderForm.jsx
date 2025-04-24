@@ -56,8 +56,18 @@ const OrderForm = () => {
         onChange={handleChange}
       />
 
-      <DeliverySelector value={values.status} onChange={handleChange} />
-      <PaymentSelector value={values.payment_status} onChange={handleChange} />
+      <DeliverySelector
+        selectedMethod={values.status}
+        onMethodSelect={(method) => handleChange({ target: { name: 'status', value: method } })}
+        address={values.address}
+        onAddressChange={(address) => handleChange({ target: { name: 'address', value: address } })}
+      />
+
+      <PaymentSelector
+        selectedMethod={values.payment_status}
+        onMethodSelect={(method) => handleChange({ target: { name: 'payment_status', value: method } })}
+      />
+
       <NotesInput value={values.notes} onChange={handleChange} />
 
       <button type="submit" className="submit-button">
