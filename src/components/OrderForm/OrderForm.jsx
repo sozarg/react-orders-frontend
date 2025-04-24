@@ -60,7 +60,10 @@ const OrderForm = () => {
       <PaymentSelector value={values.payment_status} onChange={handleChange} />
       <NotesInput value={values.notes} onChange={handleChange} />
 
-      <button type="submit">Guardar Pedido</button>
+      <button type="submit" className="submit-button">
+        Guardar Pedido
+      </button>
+
 
       <ErrorMessage message={error} />
     </form>
