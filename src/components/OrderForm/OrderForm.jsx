@@ -9,7 +9,7 @@ import PaymentSelector from '../PaymentSelector/PaymentSelector';
 import NotesInput from '../NotesInput/NotesInput';
 
 const OrderForm = () => {
-  const { createOrder } = useOrder();
+  const { createOrder } = useOrders();
   const { values, handleChange, resetForm } = useForm();
   const { error, showError } = useError();
 
