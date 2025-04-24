@@ -1,6 +1,6 @@
 import React from 'react';
 import './OrderForm.css';
-import { useOrder } from '../../context/OrderContext';
+import { useOrders } from '../../context/OrderContext';
 import { useForm } from '../../hooks/useForm';
 import { useError } from '../../hooks/useError';
 import ErrorMessage from '../ErrorMessage/ErrorMessage';
@@ -9,7 +9,7 @@ import PaymentSelector from '../PaymentSelector/PaymentSelector';
 import NotesInput from '../NotesInput/NotesInput';
 
 const OrderForm = () => {
-  const { addOrder } = useOrder();
+  const { createOrder } = useOrder();
   const { values, handleChange, resetForm } = useForm();
   const { error, showError } = useError();
 
@@ -21,7 +21,7 @@ const OrderForm = () => {
     }
 
     try {
-      await addOrder(values);
+      await createOrder(values);
       resetForm();
     } catch (err) {
       showError('No se pudo guardar el pedido');
