@@ -1,17 +1,17 @@
-export const validateOrder = (order) => {
+export const validateOrder = (values) => {
   const errors = {};
 
-  if (!order.user_id?.trim()) {
-    errors.user_id = 'El nombre es requerido';
+  if (!values.user_id || !/^[A-Za-zÁÉÍÓÚáéíóúÑñ ]+$/.test(values.user_id.trim())) {
+    errors.user_id = 'Nombre inválido. Solo letras y espacios';
   }
 
-  if (!order.product?.trim()) {
-    errors.product = 'El producto es requerido';
+  if (!values.product || values.product.trim().length < 3) {
+    errors.product = 'El producto debe tener al menos 3 caracteres';
   }
 
-  if (!order.price || order.price <= 0) {
-    errors.price = 'El precio debe ser mayor a 0';
+  if (!values.price || isNaN(values.price) || Number(values.price) <= 0) {
+    errors.price = 'El precio debe ser un número mayor a 0';
   }
 
   return errors;
-}; 
+};

@@ -7,6 +7,8 @@ import ErrorMessage from '../ErrorMessage/ErrorMessage';
 import DeliverySelector from '../DeliverySelector/DeliverySelector';
 import PaymentSelector from '../PaymentSelector/PaymentSelector';
 import NotesInput from '../NotesInput/NotesInput';
+import { validateOrder } from '../../utils/validators';
+
 
 const OrderForm = () => {
   const { createOrder } = useOrders();
@@ -15,10 +17,13 @@ const OrderForm = () => {
 
   const handleSubmit = async (e) => {
     e.preventDefault();
-    if (!values.user_id || !values.product || !values.price || Number(values.price) <= 0) {
-      showError('Todos los campos obligatorios deben estar completos y el precio debe ser mayor a 0');
+    const validationErrors = validateOrder(values);
+    if (Object.keys(validationErrors).length > 0) {
+      const messages = Object.values(validationErrors).join(', ');
+      showError(messages);
       return;
     }
+
   
     try {
       await createOrder(values);
