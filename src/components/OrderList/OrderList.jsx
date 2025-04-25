@@ -1,13 +1,27 @@
-import React, { useState } from 'react';
+import React, { useState, useEffect } from 'react';
 import { useOrders } from '../../context/OrderContext';
 import './OrderList.css';
 
 const OrderList = () => {
-  const { orders, updateOrder } = useOrders();
+  const { orders, updateOrder, fetchOrders } = useOrders();
   const [editingId, setEditingId] = useState(null);
   const [editedOrderData, setEditedOrderData] = useState({});
   const [formError, setFormError] = useState('');
   const [isSaving, setIsSaving] = useState(false);
+  const [isLoading, setIsLoading] = useState(true);
+
+  useEffect(() => {
+    const loadOrders = async () => {
+      try {
+        await fetchOrders(); // <- Esto deberías tenerlo en tu contexto
+      } catch (err) {
+        console.error('Error al cargar pedidos', err);
+      } finally {
+        setIsLoading(false);
+      }
+    };
+    loadOrders();
+  }, []);
 
   const startEditingOrder = (order) => {
     setEditingId(order.id);
@@ -57,6 +71,15 @@ const OrderList = () => {
       year: 'numeric'
     });
   };
+
+  if (isLoading) {
+    return (
+      <div className="loading-spinner">
+        <div className="spinner"></div>
+        <p>Cargando pedidos...</p>
+      </div>
+    );
+  }
 
   if (!orders.length) {
     return (
