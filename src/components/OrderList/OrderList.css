@@ -59,3 +59,17 @@
   font-size: 0.9rem;
   margin-top: 0.5rem;
 }
+
+.empty-state {
+  text-align: center;
+  padding: 3rem 1rem;
+  background: #f9f9f9;
+  border-radius: 8px;
+  margin-top: 2rem;
+  box-shadow: 0 0 8px rgba(0, 0, 0, 0.05);
+}
+
+.empty-icon {
+  font-size: 3rem;
+  margin-bottom: 1rem;
+}

@@ -59,7 +59,13 @@ const OrderList = () => {
   };
 
   if (!orders.length) {
-    return <p>No hay pedidos aún.</p>;
+    return (
+      <div className="empty-state">
+        <div className="empty-icon">📦</div>
+        <h3>No hay pedidos registrados</h3>
+        <p>¡Cargá el primer pedido para comenzar!</p>
+      </div>
+    );
   }
 
   return (
