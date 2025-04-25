@@ -35,12 +35,27 @@ export const OrderProvider = ({ children }) => {
     }
   }, [fetchOrders]);
 
+  const updateOrder = useCallback(async (orderId, updatedData) => {
+    try {
+      setLoading(true);
+      setError(null);
+      await orderService.updateOrder(orderId, updatedData);
+      await fetchOrders(); // Recargar la lista
+    } catch (err) {
+      setError(err.message);
+      throw err;
+    } finally {
+      setLoading(false);
+    }
+  }, [fetchOrders]);
+
   const value = {
     orders,
     loading,
     error,
     fetchOrders,
-    createOrder
+    createOrder,
+    updateOrder,
   };
 
   return <OrderContext.Provider value={value}>{children}</OrderContext.Provider>;
@@ -52,4 +67,4 @@ export const useOrders = () => {
     throw new Error('useOrders debe ser usado dentro de un OrderProvider');
   }
   return context;
-}; 
+};
