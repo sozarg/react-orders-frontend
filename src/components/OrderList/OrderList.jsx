@@ -1,6 +1,7 @@
 import React, { useState, useEffect } from 'react';
 import { useOrders } from '../../context/OrderContext';
 import './OrderList.css';
+import ErrorMessage from '../ErrorMessage/ErrorMessage';
 
 const ITEMS_PER_PAGE = 10;
 
@@ -19,9 +20,11 @@ const OrderList = () => {
         await fetchOrders();
       } catch (err) {
         console.error('Error al cargar pedidos', err);
+        setFormError('No se pudieron cargar los pedidos');
       } finally {
         setIsLoading(false);
       }
+      
     };
     loadOrders();
   }, [fetchOrders]);
@@ -160,7 +163,7 @@ const OrderList = () => {
                 <option value="Tienda online">Tienda online</option>
               </select>
 
-              {formError && <div className="error-message">{formError}</div>}
+              {formError && <ErrorMessage message={formError} />}
               <button
                 onClick={() => saveEditedOrder(order.id)}
                 disabled={isSaving}
