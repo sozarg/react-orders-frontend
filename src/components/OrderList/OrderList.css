@@ -1,20 +1,20 @@
 .order-list {
   max-width: 800px;
   margin: 2rem auto;
-  padding: 1rem;
+  padding: 2rem;
   background: white;
-  border-radius: 8px;
-  box-shadow: 0 2px 5px rgba(0, 0, 0, 0.1);
+  border-radius: 12px;
+  box-shadow: 0 2px 10px rgba(0, 0, 0, 0.08);
 }
 
 .order-item {
   background-color: #f9f9f9;
-  border-radius: 8px;
+  border-radius: 10px;
   padding: 1rem;
-  margin-bottom: 1rem;
+  margin-bottom: 1.5rem;
   display: flex;
   flex-direction: column;
-  gap: 0.8rem; /* <-- Más separación entre elementos */
+  gap: 0.8rem;
   position: relative;
 }
 
@@ -26,9 +26,8 @@
 .order-item input,
 .order-item select {
   width: 100%;
-  padding: 0.6rem;
-  margin-top: 0.2rem;
-  border-radius: 6px;
+  padding: 0.7rem;
+  border-radius: 8px;
   border: 1px solid #ccc;
   font-size: 1rem;
 }
@@ -38,8 +37,8 @@
   background-color: var(--sidebar-color);
   color: white;
   border: none;
-  border-radius: 6px;
-  padding: 0.5rem 1rem;
+  border-radius: 8px;
+  padding: 0.5rem 1.2rem;
   cursor: pointer;
   font-weight: 500;
   transition: background-color 0.2s;
@@ -49,7 +48,12 @@
   background-color: #126b60;
 }
 
-/* Mejorar visual del error */
+.order-date {
+  font-size: 0.85rem;
+  color: #666;
+  margin-top: 0.2rem;
+}
+
 .error-message {
   color: #dc3545;
   font-size: 0.9rem;
