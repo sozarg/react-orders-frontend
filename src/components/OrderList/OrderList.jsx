@@ -145,23 +145,25 @@ const OrderList = () => {
                 value={editedOrderData.status}
                 onChange={handleEditChange}
               >
-                <option value="">Método de entrega</option>
+                <option value="" disabled hidden>Método de entrega</option>
                 <option value="Retira en persona">Retira en persona</option>
                 <option value="Envío a domicilio">Envío a domicilio</option>
                 <option value="Retiro en correo">Retiro en correo</option>
                 <option value="No estoy seguro">No estoy seguro</option>
               </select>
+
               <select
                 name="payment_status"
                 value={editedOrderData.payment_status}
                 onChange={handleEditChange}
               >
-                <option value="">Medio de pago</option>
+                <option value="" disabled hidden>Medio de pago</option>
                 <option value="Instagram">Instagram</option>
                 <option value="Whatsapp">Whatsapp</option>
                 <option value="Mercadolibre">Mercadolibre</option>
                 <option value="Tienda online">Tienda online</option>
               </select>
+
 
               {formError && <ErrorMessage message={formError} />}
               <button
