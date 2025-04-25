@@ -24,7 +24,7 @@ const OrderList = () => {
       }
     };
     loadOrders();
-  }, []);
+  }, [fetchOrders]);
 
   const startEditingOrder = (order) => {
     setEditingId(order.id);
