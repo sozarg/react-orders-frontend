@@ -1,11 +1,19 @@
 .dashboard {
-    display: flex;
-    height: 100vh;
-  }
-  
-  .dashboard-content {
-    flex: 1;
-    padding: 2rem 3rem;
-    overflow-y: auto;
-    background-color: #f5f8fa;
-  }
+  display: flex;
+}
+
+.sidebar {
+  width: 240px;
+  background-color: var(--sidebar-color);
+  height: 100vh;
+  padding: 1rem;
+  box-sizing: border-box;
+}
+
+.content {
+  flex-grow: 1;
+  padding: 2rem;
+  box-sizing: border-box;
+  min-height: 100vh;
+  background-color: #f5f7fa;
+}
