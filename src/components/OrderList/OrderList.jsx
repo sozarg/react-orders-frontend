@@ -6,9 +6,11 @@ const OrderList = () => {
   const { orders, updateOrder } = useOrders();
   const [editingId, setEditingId] = useState(null);
   const [editValues, setEditValues] = useState({});
+  const [error, setError] = useState('');
 
   const handleEditClick = (order) => {
     setEditingId(order.id);
+    setError('');
     setEditValues({
       user_id: order.user_id || '',
       product: order.product || '',
@@ -26,9 +28,21 @@ const OrderList = () => {
   };
 
   const handleSave = async (orderId) => {
-    await updateOrder(orderId, editValues);
-    setEditingId(null);
-    setEditValues({});
+    const { user_id, product, price } = editValues;
+    if (!user_id || !product || !price) {
+      setError('Nombre, producto y precio son obligatorios');
+      return;
+    }
+
+    try {
+      await updateOrder(orderId, editValues);
+      setEditingId(null);
+      setEditValues({});
+      setError('');
+    } catch (err) {
+      console.error('Error actualizando pedido:', err);
+      setError('Hubo un error al guardar los cambios.');
+    }
   };
 
   if (!orders.length) {
@@ -38,8 +52,8 @@ const OrderList = () => {
   return (
     <div className="order-list">
       <h2>Pedidos</h2>
-      {orders
-        .sort((a, b) => new Date(b.created_at) - new Date(a.created_at)) // Ordenar del más nuevo al más viejo
+      {[...orders]
+        .sort((a, b) => new Date(b.created_at) - new Date(a.created_at))
         .map((order) => (
           <div key={order.id} className="order-item">
             {editingId === order.id ? (
@@ -87,6 +101,8 @@ const OrderList = () => {
                   <option value="Mercadolibre">Mercadolibre</option>
                   <option value="Tienda online">Tienda online</option>
                 </select>
+
+                {error && <div className="error-message">{error}</div>}
                 <button onClick={() => handleSave(order.id)}>Guardar</button>
               </>
             ) : (
