@@ -1,19 +1,23 @@
 .dashboard {
   display: flex;
+  height: 100vh;
 }
 
 .sidebar {
   width: 240px;
+  min-height: 100vh;
   background-color: var(--sidebar-color);
-  height: 100vh;
-  padding: 1rem;
-  box-sizing: border-box;
+  color: white;
+  padding: 1.5rem 1rem;
+  position: fixed;
+  left: 0;
+  top: 0;
 }
 
 .content {
-  flex-grow: 1;
+  margin-left: 240px;
   padding: 2rem;
-  box-sizing: border-box;
-  min-height: 100vh;
-  background-color: #f5f7fa;
+  width: calc(100% - 240px);
+  background-color: #f7f7f7;
+  overflow-y: auto;
 }
