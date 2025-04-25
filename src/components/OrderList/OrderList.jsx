@@ -7,6 +7,7 @@ const OrderList = () => {
   const [editingId, setEditingId] = useState(null);
   const [editValues, setEditValues] = useState({});
   const [error, setError] = useState('');
+  const [loading, setLoading] = useState(false); // Nuevo estado
 
   const handleEditClick = (order) => {
     setEditingId(order.id);
@@ -35,6 +36,7 @@ const OrderList = () => {
     }
 
     try {
+      setLoading(true);
       await updateOrder(orderId, editValues);
       setEditingId(null);
       setEditValues({});
@@ -42,6 +44,8 @@ const OrderList = () => {
     } catch (err) {
       console.error('Error actualizando pedido:', err);
       setError('Hubo un error al guardar los cambios.');
+    } finally {
+      setLoading(false);
     }
   };
 
@@ -112,7 +116,12 @@ const OrderList = () => {
                 </select>
 
                 {error && <div className="error-message">{error}</div>}
-                <button onClick={() => handleSave(order.id)}>Guardar</button>
+                <button
+                  onClick={() => handleSave(order.id)}
+                  disabled={loading}
+                >
+                  {loading ? 'Guardando...' : 'Guardar'}
+                </button>
               </>
             ) : (
               <>
