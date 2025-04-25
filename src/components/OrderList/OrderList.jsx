@@ -5,14 +5,14 @@ import './OrderList.css';
 const OrderList = () => {
   const { orders, updateOrder } = useOrders();
   const [editingId, setEditingId] = useState(null);
-  const [editValues, setEditValues] = useState({});
-  const [error, setError] = useState('');
-  const [loading, setLoading] = useState(false); // Nuevo estado
+  const [editedOrderData, setEditedOrderData] = useState({});
+  const [formError, setFormError] = useState('');
+  const [isSaving, setIsSaving] = useState(false);
 
-  const handleEditClick = (order) => {
+  const startEditingOrder = (order) => {
     setEditingId(order.id);
-    setError('');
-    setEditValues({
+    setFormError('');
+    setEditedOrderData({
       user_id: order.user_id || '',
       product: order.product || '',
       price: order.price || '',
@@ -21,31 +21,31 @@ const OrderList = () => {
     });
   };
 
-  const handleChange = (e) => {
-    setEditValues({
-      ...editValues,
+  const handleEditChange = (e) => {
+    setEditedOrderData({
+      ...editedOrderData,
       [e.target.name]: e.target.value,
     });
   };
 
-  const handleSave = async (orderId) => {
-    const { user_id, product, price } = editValues;
+  const saveEditedOrder = async (orderId) => {
+    const { user_id, product, price } = editedOrderData;
     if (!user_id || !product || !price || Number(price) <= 0) {
-      setError('Nombre, producto y precio mayor a 0 son obligatorios');
+      setFormError('Nombre, producto y precio mayor a 0 son obligatorios');
       return;
     }
-  
+
     try {
-      setLoading(true);
-      await updateOrder(orderId, editValues);
+      setIsSaving(true);
+      await updateOrder(orderId, editedOrderData);
       setEditingId(null);
-      setEditValues({});
-      setError('');
+      setEditedOrderData({});
+      setFormError('');
     } catch (err) {
       console.error('Error actualizando pedido:', err);
-      setError('Hubo un error al guardar los cambios.');
+      setFormError('Hubo un error al guardar los cambios.');
     } finally {
-      setLoading(false);
+      setIsSaving(false);
     }
   };
 
@@ -74,28 +74,28 @@ const OrderList = () => {
                 <input
                   type="text"
                   name="user_id"
-                  value={editValues.user_id}
-                  onChange={handleChange}
+                  value={editedOrderData.user_id}
+                  onChange={handleEditChange}
                   placeholder="Nombre"
                 />
                 <input
                   type="text"
                   name="product"
-                  value={editValues.product}
-                  onChange={handleChange}
+                  value={editedOrderData.product}
+                  onChange={handleEditChange}
                   placeholder="Producto"
                 />
                 <input
                   type="number"
                   name="price"
-                  value={editValues.price}
-                  onChange={handleChange}
+                  value={editedOrderData.price}
+                  onChange={handleEditChange}
                   placeholder="Precio"
                 />
                 <select
                   name="status"
-                  value={editValues.status}
-                  onChange={handleChange}
+                  value={editedOrderData.status}
+                  onChange={handleEditChange}
                 >
                   <option value="">Método de entrega</option>
                   <option value="Retira en persona">Retira en persona</option>
@@ -105,8 +105,8 @@ const OrderList = () => {
                 </select>
                 <select
                   name="payment_status"
-                  value={editValues.payment_status}
-                  onChange={handleChange}
+                  value={editedOrderData.payment_status}
+                  onChange={handleEditChange}
                 >
                   <option value="">Medio de pago</option>
                   <option value="Instagram">Instagram</option>
@@ -115,12 +115,12 @@ const OrderList = () => {
                   <option value="Tienda online">Tienda online</option>
                 </select>
 
-                {error && <div className="error-message">{error}</div>}
+                {formError && <div className="error-message">{formError}</div>}
                 <button
-                  onClick={() => handleSave(order.id)}
-                  disabled={loading}
+                  onClick={() => saveEditedOrder(order.id)}
+                  disabled={isSaving}
                 >
-                  {loading ? 'Guardando...' : 'Guardar'}
+                  {isSaving ? 'Guardando...' : 'Guardar'}
                 </button>
               </>
             ) : (
@@ -131,7 +131,7 @@ const OrderList = () => {
                 <div><strong>Entrega:</strong> {order.status}</div>
                 <div><strong>Pago:</strong> {order.payment_status}</div>
                 <div className="order-date">📅 {formatDate(order.created_at)}</div>
-                <button onClick={() => handleEditClick(order)}>Editar 🖉</button>
+                <button onClick={() => startEditingOrder(order)}>Editar 🖉</button>
               </>
             )}
           </div>
