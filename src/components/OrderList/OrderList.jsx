@@ -45,6 +45,15 @@ const OrderList = () => {
     }
   };
 
+  const formatDate = (isoDate) => {
+    const date = new Date(isoDate);
+    return date.toLocaleDateString('es-AR', {
+      day: '2-digit',
+      month: '2-digit',
+      year: 'numeric'
+    });
+  };
+
   if (!orders.length) {
     return <p>No hay pedidos aún.</p>;
   }
@@ -112,6 +121,7 @@ const OrderList = () => {
                 <div><strong>Precio:</strong> ${order.price}</div>
                 <div><strong>Entrega:</strong> {order.status}</div>
                 <div><strong>Pago:</strong> {order.payment_status}</div>
+                <div className="order-date">📅 {formatDate(order.created_at)}</div>
                 <button onClick={() => handleEditClick(order)}>Editar 🖉</button>
               </>
             )}
