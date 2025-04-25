@@ -15,18 +15,18 @@ const OrderForm = () => {
 
   const handleSubmit = async (e) => {
     e.preventDefault();
-    if (!values.user_id || !values.product || !values.price) {
-      showError('Todos los campos obligatorios deben estar completos');
+    if (!values.user_id || !values.product || !values.price || Number(values.price) <= 0) {
+      showError('Todos los campos obligatorios deben estar completos y el precio debe ser mayor a 0');
       return;
     }
-
+  
     try {
       await createOrder(values);
       resetForm();
     } catch (err) {
       showError('No se pudo guardar el pedido');
     }
-  };
+  };  
 
   return (
     <form className="order-form" onSubmit={handleSubmit}>

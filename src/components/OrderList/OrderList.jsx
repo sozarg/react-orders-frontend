@@ -30,11 +30,11 @@ const OrderList = () => {
 
   const handleSave = async (orderId) => {
     const { user_id, product, price } = editValues;
-    if (!user_id || !product || !price) {
-      setError('Nombre, producto y precio son obligatorios');
+    if (!user_id || !product || !price || Number(price) <= 0) {
+      setError('Nombre, producto y precio mayor a 0 son obligatorios');
       return;
     }
-
+  
     try {
       setLoading(true);
       await updateOrder(orderId, editValues);
