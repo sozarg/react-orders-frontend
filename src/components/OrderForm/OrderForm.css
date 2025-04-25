@@ -1,29 +1,35 @@
-.form-container {
-  background: white;
-  border-radius: 12px;
-  padding: 2rem;
-  box-shadow: 0 1px 3px rgba(0, 0, 0, 0.1);
+.order-form {
+  display: flex;
+  flex-direction: column;
+  gap: 1rem;
   max-width: 800px;
   margin: 0 auto;
-}
-
-.page-title {
-  font-size: 1.5rem;
-  font-weight: 600;
-  color: #1a1a1a;
-  margin-bottom: 2rem;
-}
-
-.form-control {
+  padding: 2rem;
+  background-color: white;
   border-radius: 8px;
-  padding: 0.75rem;
-  margin-bottom: 1rem;
-  border: 1px solid var(--border-color);
-  width: 100%;
-  font-size: 0.95rem;
+  box-shadow: 0 0 10px rgba(0,0,0,0.05);
 }
 
-.form-control:focus {
+.order-form h2 {
+  text-align: center;
+  margin-bottom: 1rem;
+  color: #1a1a1a;
+  font-size: 1.5rem;
+}
+
+.order-form input,
+.order-form select,
+.order-form textarea {
+  padding: 0.75rem;
+  border: 1px solid var(--border-color);
+  border-radius: 6px;
+  font-size: 1rem;
+  width: 100%;
+}
+
+.order-form input:focus,
+.order-form select:focus,
+.order-form textarea:focus {
   outline: none;
   border-color: var(--sidebar-color);
   box-shadow: 0 0 0 2px rgba(21, 122, 110, 0.1);
@@ -43,27 +49,10 @@
 
 .submit-button:hover {
   background-color: #126b60;
-} 
-
-.order-form {
-  display: flex;
-  flex-direction: column;
-  gap: 1rem;
-  max-width: 800px;
-  margin: 0 auto;
-  padding: 2rem;
-  background-color: white;
-  border-radius: 8px;
-  box-shadow: 0 0 10px rgba(0,0,0,0.05);
 }
 
-.order-form h2 {
-  text-align: center;
-  margin-bottom: 1rem;
-}
-
-.order-form input {
-  padding: 0.75rem;
-  border: 1px solid #ccc;
-  border-radius: 4px;
+.error-message {
+  color: red;
+  font-size: 0.9rem;
+  margin-top: -0.5rem;
 }
