@@ -2,6 +2,7 @@ import React from 'react';
 import { BrowserRouter as Router, Routes, Route } from 'react-router-dom';
 import { Container, Row, Col } from 'react-bootstrap';
 import Sidebar from './components/Sidebar';
+import Toaster from './components/Toaster';
 import OrderForm from './features/orders/pages/OrderForm';
 import OrderList from './features/orders/pages/OrderList';
 import CompletedOrders from './features/orders/pages/CompletedOrders';
@@ -27,6 +28,7 @@ function App() {
                   </Routes>
                 </div>
               </main>
+              <Toaster />
             </Col>
           </Row>
         </Container>

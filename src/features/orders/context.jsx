@@ -31,8 +31,10 @@ export const OrderProvider = ({ children }) => {
     try {
       await createOrderService(orderData);
       await fetchOrders();
+      return true;
     } catch (err) {
       setError(err.message || 'Error al crear pedido.');
+      return false;
     } finally {
       setLoading(false);
     }
@@ -44,8 +46,10 @@ export const OrderProvider = ({ children }) => {
     try {
       await updateOrderService(orderId, updatedData);
       await fetchOrders();
+      return true;
     } catch (err) {
       setError(err.message || 'Error al actualizar pedido.');
+      return false;
     } finally {
       setLoading(false);
     }

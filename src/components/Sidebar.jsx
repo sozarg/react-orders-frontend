@@ -38,9 +38,7 @@ const Sidebar = () => {
           </Link>
         </Nav.Item>
       </Nav>
-      <div className="mt-auto text-muted small">
-        <span>v1.0 · Futurist UI</span>
-      </div>
+      {/* footer removed as requested */}
     </aside>
   );
 };
