@@ -1,34 +1,47 @@
 import React from 'react';
 import PropTypes from 'prop-types';
+import { Container, Row, Col, Button } from 'react-bootstrap';
 
 const DashboardLayout = ({ currentView, onViewChange, children }) => {
   return (
-    <div className="dashboard-layout">
-      <aside className="sidebar">
-        <h2>Pedidos</h2>
-        <nav>
-          <ul>
-            <li>
-              <button onClick={() => onViewChange('create')}>Crear Pedido</button>
-            </li>
-            <li>
-              <button onClick={() => onViewChange('list')}>Lista de Pedidos</button>
-            </li>
-            <li>
-              <button onClick={() => onViewChange('completed')}>Pedidos Completados</button>
-            </li>
-          </ul>
-        </nav>
-      </aside>
-      <main className="content">{children}</main>
-    </div>
+    <Container fluid>
+      <Row>
+        <Col md={2} className="sidebar">
+          <h2>Nombre Empresa</h2>
+          <Button 
+            variant={currentView === 'create' ? 'primary' : 'outline-primary'} 
+            size="lg" 
+            onClick={() => onViewChange('create')}
+          >
+            Crear Pedido
+          </Button>
+          <Button 
+            variant={currentView === 'list' ? 'primary' : 'outline-primary'} 
+            size="lg" 
+            onClick={() => onViewChange('list')}
+          >
+            Lista de Pedidos
+          </Button>
+          <Button 
+            variant={currentView === 'completed' ? 'primary' : 'outline-primary'} 
+            size="lg" 
+            onClick={() => onViewChange('completed')}
+          >
+            Pedidos Completados
+          </Button>
+        </Col>
+        <Col md={10} className="content">
+          {children}
+        </Col>
+      </Row>
+    </Container>
   );
 };
 
 DashboardLayout.propTypes = {
   currentView: PropTypes.string.isRequired,
   onViewChange: PropTypes.func.isRequired,
-  children: PropTypes.node.isRequired,
+  children: PropTypes.node,
 };
 
 export default DashboardLayout;

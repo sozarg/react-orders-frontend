@@ -1,6 +1,7 @@
 import React from 'react';
-import { DeliveryMethods } from '../orderTypes';
+import { DeliveryMethods } from '../features/orders/orderTypes';
 import PropTypes from 'prop-types';
+
 
 const DeliverySelector = ({ value, onChange, compact = false }) => {
   return (

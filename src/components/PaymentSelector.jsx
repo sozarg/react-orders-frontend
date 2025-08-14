@@ -1,5 +1,5 @@
 import React from 'react';
-import { PaymentMethods } from '../orderTypes';
+import { PaymentMethods } from '../features/orders/orderTypes';
 import PropTypes from 'prop-types';
 
 const PaymentSelector = ({ value, onChange, compact = false }) => {

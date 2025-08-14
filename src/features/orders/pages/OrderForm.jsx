@@ -1,87 +1,112 @@
-import React from 'react';
+import React, { useState } from 'react';
+import { Form, Button, Card, Container, Row, Col, Spinner } from 'react-bootstrap';
+import PaymentSelector from '../../../components/PaymentSelector'
+import DeliverySelector from '../../../components/DeliverySelector';
+import NotesInput from '../../../components/NotesInput';
 import { useOrders } from '../context';
-import { useForm } from '../hooks';
-import { validateOrder } from '../../../utils/validators';
-import DeliverySelector from '../components/DeliverySelector';
-import PaymentSelector from '../components/PaymentSelector';
-import NotesInput from '../components/NotesInput';
-import ErrorMessage from '../components/ErrorMessage';
 
-const OrderForm = () => {
-  const { createOrder, loading, error } = useOrders();
-  const { values, handleChange, reset: resetForm } = useForm({
+
+function OrderForm() {
+  const [form, setForm] = useState({
     product: '',
     price: '',
-    payment_status: '',
     user_id: '',
+    payment_status: '',
     status: '',
     address: '',
     notes: '',
   });
+  const { createOrder, loading } = useOrders();
 
-  const handleSubmit = async (e) => {
+  const handleChange = (e) => {
+    const { name, value } = e.target;
+    setForm({ ...form, [name]: value });
+  };
+
+  const handleSubmit = (e) => {
     e.preventDefault();
-    const validationError = validateOrder(values);
-    if (validationError) {
-      alert(validationError); // Se podría mejorar con una notificación mejor
-      return;
-    }
-    await createOrder(values);
-    resetForm();
+    createOrder(form);
   };
 
   return (
-    <form onSubmit={handleSubmit} className="order-form">
-      <h2>Crear Nuevo Pedido</h2>
+    <Container className="py-4">
+      <Row className="justify-content-center">
+        <Col md={8} lg={7}>
+          <Card className="shadow-sm">
+            <Card.Body>
+              <h3 className="mb-4 text-center gradient-text">Crear Nuevo Pedido</h3>
+              <Form onSubmit={handleSubmit}>
+                <Form.Group className="mb-3">
+                  <Form.Label>Producto</Form.Label>
+                  <Form.Control
+                    type="text"
+                    name="product"
+                    value={form.product}
+                    onChange={handleChange}
+                    placeholder="Nombre del producto"
+                    required
+                  />
+                </Form.Group>
 
-      <label>Producto:</label>
-      <input
-        type="text"
-        name="product"
-        value={values.product}
-        onChange={handleChange}
-        required
-      />
+                <Form.Group className="mb-3">
+                  <Form.Label>Precio</Form.Label>
+                  <Form.Control
+                    type="number"
+                    name="price"
+                    value={form.price}
+                    onChange={handleChange}
+                    placeholder="Precio en ARS"
+                    required
+                  />
+                </Form.Group>
 
-      <label>Precio:</label>
-      <input
-        type="number"
-        name="price"
-        value={values.price}
-        onChange={handleChange}
-        required
-      />
+                <PaymentSelector value={form.payment_status} onChange={handleChange} />
 
-      <PaymentSelector value={values.payment_status} onChange={handleChange} />
-      
-      <label>Nombre del Cliente:</label>
-      <input
-        type="text"
-        name="user_id"
-        value={values.user_id}
-        onChange={handleChange}
-        required
-      />
+                <Form.Group className="mb-3">
+                  <Form.Label>Nombre del Cliente</Form.Label>
+                  <Form.Control
+                    type="text"
+                    name="user_id"
+                    value={form.user_id}
+                    onChange={handleChange}
+                    placeholder="Ej: Juan Pérez"
+                    required
+                  />
+                </Form.Group>
 
-      <DeliverySelector value={values.status} onChange={handleChange} />
+                <DeliverySelector value={form.status} onChange={handleChange} />
 
-      <label>Dirección (opcional):</label>
-      <input
-        type="text"
-        name="address"
-        value={values.address}
-        onChange={handleChange}
-      />
+                <Form.Group className="mb-3">
+                  <Form.Label>Dirección (opcional)</Form.Label>
+                  <Form.Control
+                    type="text"
+                    name="address"
+                    value={form.address}
+                    onChange={handleChange}
+                    placeholder="Calle Falsa 123"
+                  />
+                </Form.Group>
 
-      <NotesInput value={values.notes} onChange={handleChange} />
+                <NotesInput value={form.notes} onChange={handleChange} />
 
-      <button type="submit" disabled={loading}>
-        {loading ? 'Guardando...' : 'Guardar Pedido'}
-      </button>
-
-      <ErrorMessage message={error} />
-    </form>
+                <div className="d-grid">
+                  <Button variant="primary" type="submit" disabled={loading}>
+                    {loading ? (
+                      <>
+                        <Spinner animation="border" size="sm" /> Guardando...
+                      </>
+                    ) : (
+                      'Guardar Pedido'
+                    )}
+                  </Button>
+                </div>
+              </Form>
+            </Card.Body>
+          </Card>
+        </Col>
+      </Row>
+    </Container>
   );
-};
+}
 
 export default OrderForm;
